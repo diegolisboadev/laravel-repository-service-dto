@@ -14,7 +14,6 @@ class ProductsController extends Controller
 
     public function __construct(private ProductService $productService)
     {
-        $this->productService = $productService;
     }
 
     /**

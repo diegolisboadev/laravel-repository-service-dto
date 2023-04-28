@@ -14,7 +14,6 @@ class UserController extends Controller
 {
     public function __construct(private UserService $userService)
     {
-        $this->userService = $userService;
     }
 
     /**
