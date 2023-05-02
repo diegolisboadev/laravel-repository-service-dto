@@ -99,4 +99,84 @@ class UserControllerTest extends TestCase
             ]);
         });
     }
+
+    /**
+     *
+     */
+    public function test_post_usuarios_quando_tentar_criar_um_usuario_invalido()
+    {
+        $response = $this->postJson('/api/v1/usuarios', []);
+
+        $response->assertStatus(422);
+
+        $response->assertJson(function (AssertableJson $json) {
+            $json->hasAll(['message', 'errors']);
+
+            $json->whereAll([
+                'errors.name.0' => 'The name field is required.',
+                'errors.email.0' => 'The email field is required.'
+            ]);
+        });
+    }
+
+    /**
+     *
+     */
+    public function test_put_usuarios_endpoint()
+    {
+        User::factory(1)->createOne();
+
+        $usuario = [
+            'name' => 'Diego Lisboa',
+            'email' => 'diego.lis@hotmail.com'
+        ];
+
+        $response = $this->putJson('/api/v1/usuarios/1', $usuario);
+
+        $response->assertStatus(200);
+
+        $response->assertJson(function (AssertableJson $json) use ($usuario) {
+            $json->hasAll(['data.nome', 'data.email']);
+
+            $json->whereAll([
+                'data.nome' => $usuario['name'],
+                'data.email' => $usuario['email']
+            ]);
+        });
+    }
+
+    /**
+     *
+     */
+    public function test_patch_usuarios_endpoint()
+    {
+        User::factory(1)->createOne();
+
+        $usuario = [
+            'name' => 'Diego Pires',
+            'email' => 'diego.lis@hotmail.com'
+        ];
+
+        $response = $this->patchJson('/api/v1/usuarios/1', $usuario);
+
+        $response->assertStatus(200);
+
+        $response->assertJson(function (AssertableJson $json) use ($usuario) {
+            $json->has('data.nome');
+
+            $json->where('data.nome', $usuario['name']);
+        });
+    }
+
+    /**
+     *
+     */
+    public function test_delete_usuarios_endpoint()
+    {
+        User::factory(1)->createOne();
+
+        $response = $this->deleteJson('/api/v1/usuarios/1');
+
+        $response->assertStatus(200);
+    }
 }

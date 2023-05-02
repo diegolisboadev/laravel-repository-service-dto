@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 }); */
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::apiResource('usuarios', UserController::class);
-    Route::apiResource('produtos', ProductsController::class);
+    Route::apiResources([
+        'usuarios' => UserController::class,
+        'produtos' => ProductsController::class
+    ]);
 });

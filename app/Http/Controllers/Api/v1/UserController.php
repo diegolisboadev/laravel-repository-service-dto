@@ -56,6 +56,6 @@ class UserController extends Controller
     public function destroy(int $id)
     {
         $this->userService->deleteUser($id);
-        return response()->json(['message' => 'Usuário Excluído!'], 202);
+        return response()->json(['message' => 'Usuário Excluído!'], 200);
     }
 }
