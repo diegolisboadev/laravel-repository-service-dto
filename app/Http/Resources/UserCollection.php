@@ -14,6 +14,16 @@ class UserCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'data' => $this->collection,
+        ];
+    }
+
+    public function with(Request $request): array
+    {
+        return [
+            'status' => 'Sucesso',
+            'message' => 'Lista de Usuários recuperada com sucesso!',
+        ];
     }
 }
